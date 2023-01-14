@@ -7,7 +7,8 @@ export const close: () => void = zicUI.close;
 
 interface Events {
     exit?: boolean;
-    keys: [];
+    keysDown?: number[];
+    keysUp?: number[];
 };
 
 export const getEvents: () => Events = zicUI.getEvents;

@@ -8,5 +8,7 @@ setInterval(() => {
     if (events.exit) {
         close();
         exit();
+    } else if (events.keysDown || events.keysUp) {
+        console.log('events', events);
     }
 }, 100);

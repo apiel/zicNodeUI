@@ -37,8 +37,8 @@ Napi::Object getEvents(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
 
     Napi::Object events = Napi::Object::New(env);
-    Napi::Array keyEvents = Napi::Array::New(env);
-    events.Set("keys", keyEvents);
+    Napi::Array keysDown = Napi::Array::New(env);
+    Napi::Array keysUp = Napi::Array::New(env);
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
@@ -46,9 +46,20 @@ Napi::Object getEvents(const Napi::CallbackInfo& info)
         case SDL_QUIT:
             events.Set("exit", Napi::Boolean::New(env, true));
             break;
+        case SDL_KEYDOWN:
+            keysDown.Set(keysDown.Length(), Napi::Number::New(env, event.key.keysym.scancode));
+            break;
+        case SDL_KEYUP:
+            keysUp.Set(keysUp.Length(), Napi::Number::New(env, event.key.keysym.scancode));
+            break;
         }
     }
-
+    if (keysDown.Length() > 0) {
+            events.Set("keysDown", keysDown);
+    }
+    if (keysUp.Length() > 0) {
+            events.Set("keysUp", keysUp);
+    }
     return events;
 }
 

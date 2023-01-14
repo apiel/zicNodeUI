@@ -2,7 +2,8 @@ export declare const open: () => void;
 export declare const close: () => void;
 interface Events {
     exit?: boolean;
-    keys: [];
+    keysDown?: number[];
+    keysUp?: number[];
 }
 export declare const getEvents: () => Events;
 export {};
