@@ -1,10 +1,11 @@
 import { exit } from 'process';
-import { open, close, getEvents, rgb, drawRect, render } from './lib';
+import { open, close, getEvents, drawRect, render, setColor, Color } from './lib';
 
 open();
 
-const red = rgb(255, 0, 0);
-drawRect(10, 10, 100, 100, red, true);
+const red: Color = [255, 0, 0];
+setColor(...red);
+drawRect(10, 10, 100, 100, true);
 render();
 
 setInterval(() => {
