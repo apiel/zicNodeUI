@@ -1,10 +1,11 @@
 import { exit } from 'process';
-import { open, close, shouldExit } from './lib';
+import { open, close, getEvents } from './lib';
 
 open();
 
 setInterval(() => {
-    if (shouldExit()) {
+    const events = getEvents();
+    if (events.exit) {
         close();
         exit();
     }
