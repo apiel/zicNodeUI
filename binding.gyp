@@ -4,7 +4,7 @@
       "target_name": "zic_ui",
       "cflags!": [
         "-fno-exceptions",
-        '<!@(pkg-config sdl2 --cflags --libs)'
+        '<!@(pkg-config sdl2 --cflags --libs)',
       ],
       "cflags_cc!": [ 
         "-fno-exceptions",

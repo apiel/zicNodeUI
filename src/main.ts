@@ -1,5 +1,5 @@
 import { exit } from 'process';
-import { open, close, getEvents, drawRect, render, setColor, Color, drawLine, drawPoint } from './lib';
+import { open, close, getEvents, drawRect, render, setColor, Color, drawLine, drawPoint, drawText } from './lib';
 
 open();
 
@@ -8,6 +8,7 @@ setColor(...red);
 drawRect(10, 10, 100, 100, true);
 drawLine(10, 150, 150, 150);
 drawPoint(5, 5);
+drawText('Hello World', 10, 10, 255, 255, 255, 20);
 render();
 
 setInterval(() => {

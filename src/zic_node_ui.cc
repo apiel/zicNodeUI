@@ -13,11 +13,14 @@ SDL_Renderer* renderer = NULL;
 
 Napi::Value open(const Napi::CallbackInfo& info)
 {
+    SDL_Init(SDL_INIT_VIDEO);
     window = SDL_CreateWindow(
         "Zic", SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
         SCREEN_W, SCREEN_H,
         SDL_WINDOW_SHOWN);
+
+    TTF_Init();
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
@@ -106,6 +109,49 @@ Napi::Value drawRect(const Napi::CallbackInfo& info)
     }
 }
 
+Napi::Value drawText(const Napi::CallbackInfo& info)
+{
+    Napi::Env env = info.Env();
+    try {
+        std::string text = info[0].As<Napi::String>().Utf8Value();
+        uint32_t x = getArgsInRange(info, 1, "x", 0, SCREEN_W - 1);
+        uint32_t y = getArgsInRange(info, 2, "y", 0, SCREEN_H - 1);
+        // TODO make rgba object
+        uint32_t r = getArgsInRange(info, 3, "r", 0, 255);
+        uint32_t g = getArgsInRange(info, 4, "g", 0, 255);
+        uint32_t b = getArgsInRange(info, 5, "b", 0, 255);
+        uint32_t size = info.Length() > 6 ? getArgsInRange(info, 6, "size", 1, 255) : 16;
+        uint32_t a = info.Length() > 7 ? getArgsInRange(info, 7, "a", 0, 255) : 0xff;
+
+        // TTF_Font* font = TTF_OpenFont("FreeSans.ttf", size);
+        TTF_Font* font = TTF_OpenFont("/usr/share/fonts/truetype/freefont/FreeMono.ttf", size);
+        if (font == NULL) {
+            throw Napi::Error::New(env, "Failed to load font");
+        }
+
+        SDL_Color color = { (uint8_t)r, (uint8_t)g, (uint8_t)b, (uint8_t)a };
+        SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+        if (surface == NULL) {
+            throw Napi::Error::New(env, "Failed to render text");
+        }
+
+        SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+        if (texture == NULL) {
+            throw Napi::Error::New(env, "Failed to create texture");
+        }
+
+        SDL_Rect rect = { (int)x, (int)y, surface->w, surface->h };
+        SDL_RenderCopy(renderer, texture, NULL, &rect);
+
+        SDL_FreeSurface(surface);
+        SDL_DestroyTexture(texture);
+        TTF_CloseFont(font);
+    } catch (const Napi::Error& e) {
+        e.ThrowAsJavaScriptException();
+    }
+    return env.Undefined();
+}
+
 Napi::Value close(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
@@ -157,6 +203,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
     exports.Set(Napi::String::New(env, "drawRect"), Napi::Function::New(env, drawRect));
     exports.Set(Napi::String::New(env, "drawPoint"), Napi::Function::New(env, drawPoint));
     exports.Set(Napi::String::New(env, "drawLine"), Napi::Function::New(env, drawLine));
+    exports.Set(Napi::String::New(env, "drawText"), Napi::Function::New(env, drawText));
     return exports;
 }
 
