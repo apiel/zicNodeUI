@@ -15,7 +15,8 @@
         '<!@(pkg-config sdl2 --cflags-only-I | sed s/-I//g)',
       ],
       'libraries': [
-          '<!@(pkg-config sdl2 --cflags --libs)',
+          '-lSDL2',
+          '-lSDL2_ttf'
       ],
       'defines': [ 'NAPI_DISABLE_CPP_EXCEPTIONS' ],
     }
