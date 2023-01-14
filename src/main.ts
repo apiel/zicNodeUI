@@ -1,11 +1,13 @@
 import { exit } from 'process';
-import { open, close, getEvents, drawRect, render, setColor, Color } from './lib';
+import { open, close, getEvents, drawRect, render, setColor, Color, drawLine, drawPoint } from './lib';
 
 open();
 
 const red: Color = [255, 0, 0];
 setColor(...red);
 drawRect(10, 10, 100, 100, true);
+drawLine(10, 150, 150, 150);
+drawPoint(5, 5);
 render();
 
 setInterval(() => {

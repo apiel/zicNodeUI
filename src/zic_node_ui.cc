@@ -43,6 +43,34 @@ Napi::Value setColor(const Napi::CallbackInfo& info)
     return env.Undefined();
 }
 
+Napi::Value drawPoint(const Napi::CallbackInfo& info)
+{
+    Napi::Env env = info.Env();
+    try {
+        uint32_t x = getArgsInRange(info, 0, "x", 0, SCREEN_W - 1);
+        uint32_t y = getArgsInRange(info, 1, "y", 0, SCREEN_H - 1);
+        SDL_RenderDrawPoint(renderer, x, y);
+    } catch (const Napi::Error& e) {
+        e.ThrowAsJavaScriptException();
+    }
+    return env.Undefined();
+}
+
+Napi::Value drawLine(const Napi::CallbackInfo& info)
+{
+    Napi::Env env = info.Env();
+    try {
+        uint32_t x1 = getArgsInRange(info, 0, "x1", 0, SCREEN_W - 1);
+        uint32_t y1 = getArgsInRange(info, 1, "y1", 0, SCREEN_H - 1);
+        uint32_t x2 = getArgsInRange(info, 2, "x2", 0, SCREEN_W - 1);
+        uint32_t y2 = getArgsInRange(info, 3, "y2", 0, SCREEN_H - 1);
+        SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+    } catch (const Napi::Error& e) {
+        e.ThrowAsJavaScriptException();
+    }
+    return env.Undefined();
+}
+
 Napi::Value drawRect(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
@@ -114,6 +142,8 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
     exports.Set(Napi::String::New(env, "render"), Napi::Function::New(env, render));
     exports.Set(Napi::String::New(env, "setColor"), Napi::Function::New(env, setColor));
     exports.Set(Napi::String::New(env, "drawRect"), Napi::Function::New(env, drawRect));
+    exports.Set(Napi::String::New(env, "drawPoint"), Napi::Function::New(env, drawPoint));
+    exports.Set(Napi::String::New(env, "drawLine"), Napi::Function::New(env, drawLine));
     return exports;
 }
 
