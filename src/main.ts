@@ -1,7 +1,11 @@
 import { exit } from 'process';
-import { open, close, getEvents } from './lib';
+import { open, close, getEvents, rgb, drawRect, render } from './lib';
 
 open();
+
+const red = rgb(255, 0, 0);
+drawRect(10, 10, 100, 100, red, true);
+render();
 
 setInterval(() => {
     const events = getEvents();

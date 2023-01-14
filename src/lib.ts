@@ -12,3 +12,7 @@ interface Events {
 };
 
 export const getEvents: () => Events = zicUI.getEvents;
+
+export const render: () => void = zicUI.render;
+export const rgb: (r: number, g: number, b: number) => number = zicUI.rgb;
+export const drawRect: (x: number, y: number, w: number, h: number, color: number, fill?: boolean) => void = zicUI.drawRect;
