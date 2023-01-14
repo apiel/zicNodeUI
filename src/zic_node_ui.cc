@@ -45,6 +45,17 @@ Napi::Value setColor(const Napi::CallbackInfo& info)
     return env.Undefined();
 }
 
+Napi::Value clear(const Napi::CallbackInfo& info)
+{
+    if (info.Length() > 0) {
+        setColor(info);
+    } else {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0xff);
+    }
+    SDL_RenderClear(renderer);
+    return info.Env().Undefined();
+}
+
 Napi::Value drawPoint(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();

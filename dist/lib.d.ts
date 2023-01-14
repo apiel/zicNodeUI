@@ -12,5 +12,6 @@ export declare const setColor: (r: number, g: number, b: number, a?: number) => 
 export declare const drawRect: (x: number, y: number, w: number, h: number, fill?: boolean) => void;
 export declare const drawPoint: (x: number, y: number) => void;
 export declare const drawLine: (x1: number, y1: number, x2: number, y2: number) => void;
+export declare const clear: (() => void) | ((r: number, g: number, b: number, a?: number) => void);
 export {};
 //# sourceMappingURL=lib.d.ts.map
