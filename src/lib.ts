@@ -14,8 +14,14 @@ interface Events {
 export const getEvents: () => Events = zicUI.getEvents;
 
 export const render: () => void = zicUI.render;
-export type Color = [number, number, number, number?];
-export const setColor: (r: number, g: number, b: number, a?: number) => number = zicUI.setColor;
+export interface Color {
+    r: number;
+    g: number;
+    b: number;
+    a?: number;
+}
+export const setColor: (color: Color) => number = zicUI.setColor;
+
 export const drawRect: (x: number, y: number, w: number, h: number, fill?: boolean) => void =
     zicUI.drawRect;
 export const drawPoint: (x: number, y: number) => void = zicUI.drawPoint;
