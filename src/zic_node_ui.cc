@@ -34,8 +34,8 @@ Napi::Value setColor(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        uint32_t * color = getColor(env, info[0]);
-        SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
+        Color& color = getColor(env, info[0]);
+        SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     } catch (const Napi::Error& e) {
         e.ThrowAsJavaScriptException();
     }

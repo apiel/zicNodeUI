@@ -23,17 +23,24 @@ uint32_t getArgsInRange(const Napi::CallbackInfo& info, uint32_t pos, const std:
     return getValueInRange(info.Env(), info[pos], name, min, max);
 }
 
-uint32_t* getColor(const Napi::Env& env, const Napi::Value& value)
+struct Color {
+    uint32_t r;
+    uint32_t g;
+    uint32_t b;
+    uint32_t a;
+};
+
+Color& getColor(const Napi::Env& env, const Napi::Value& value)
 {
     if (!value.IsObject()) {
         throw Napi::Error::New(env, "Color must be an object {r: number, g: number, b: number, a: number}");
     }
-    static uint32_t color[4];
-    color[0] = getValueInRange(env, value.As<Napi::Object>().Get("r"), "r", 0, 255);
-    color[1] = getValueInRange(env, value.As<Napi::Object>().Get("g"), "g", 0, 255);
-    color[2] = getValueInRange(env, value.As<Napi::Object>().Get("b"), "b", 0, 255);
-    color[3] = value.As<Napi::Object>().Has("a") ? getValueInRange(env, value.As<Napi::Object>().Get("a"), "a", 0, 255)
-                                                 : 255;
+    static Color color;
+    color.r = getValueInRange(env, value.As<Napi::Object>().Get("r"), "r", 0, 255);
+    color.g = getValueInRange(env, value.As<Napi::Object>().Get("g"), "g", 0, 255);
+    color.b = getValueInRange(env, value.As<Napi::Object>().Get("b"), "b", 0, 255);
+    color.a = value.As<Napi::Object>().Has("a") ? getValueInRange(env, value.As<Napi::Object>().Get("a"), "a", 0, 255)
+                                                : 255;
     return color;
 }
 
