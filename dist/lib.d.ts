@@ -31,8 +31,12 @@ export interface Screen {
     size: Size;
     position: Point;
 }
+export interface ScreenOptions {
+    size?: Size;
+    position?: Point;
+}
 export declare const getScreen: () => Screen;
-export declare const open: () => void;
+export declare const open: (options?: ScreenOptions) => void;
 export declare const close: () => void;
 export declare const getEvents: () => Events;
 export declare const render: () => void;

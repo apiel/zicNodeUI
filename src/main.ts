@@ -16,7 +16,7 @@ import {
     getScreen,
 } from './lib';
 
-open();
+open({ position: {x: 10, y: 10}});
 console.log('screen', getScreen());
 
 const red: Color = { r: 255, g: 0, b: 0 };

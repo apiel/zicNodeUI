@@ -44,18 +44,34 @@ Napi::Value getScreen(const Napi::CallbackInfo& info)
 
 Napi::Value open(const Napi::CallbackInfo& info)
 {
+    Napi::Env env = info.Env();
+    int x = SDL_WINDOWPOS_UNDEFINED;
+    int y = SDL_WINDOWPOS_UNDEFINED;
+    int w = screen.w;
+    int h = screen.h;
+
+    if (info.Length() > 0) {
+        Napi::Object obj = info[0].As<Napi::Object>();
+        if (obj.Has("size")) {
+            Size size = getSize(env, obj.Get("size"));
+            w = size.w;
+            h = size.h;
+        }
+        if (obj.Has("position")) {
+            Point pos = getPoint(env, obj.Get("position"));
+            x = pos.x;
+            y = pos.y;
+        }
+    }
+
     SDL_Init(SDL_INIT_VIDEO);
-    window = SDL_CreateWindow(
-        "Zic", SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
-        screen.w, screen.h,
-        SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Zic", x, y, w, h, SDL_WINDOW_SHOWN);
 
     TTF_Init();
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
-    return info.Env().Undefined();
+    return env.Undefined();
 }
 
 Napi::Value render(const Napi::CallbackInfo& info)

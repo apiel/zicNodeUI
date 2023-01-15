@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const process_1 = require("process");
 const lib_1 = require("./lib");
-(0, lib_1.open)();
+(0, lib_1.open)({ position: { x: 10, y: 10 } });
 console.log('screen', (0, lib_1.getScreen)());
 const red = { r: 255, g: 0, b: 0 };
 const white = { r: 255, g: 255, b: 255 };

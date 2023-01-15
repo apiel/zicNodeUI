@@ -51,8 +51,13 @@ export interface Screen {
     position: Point;
 }
 
+export interface ScreenOptions {
+    size?: Size;
+    position?: Point;
+}
+
 export const getScreen: () => Screen = zicUI.getScreen;
-export const open: () => void = zicUI.open;
+export const open: (options?: ScreenOptions) => void = zicUI.open;
 export const close: () => void = zicUI.close;
 export const getEvents: () => Events = zicUI.getEvents;
 export const render: () => void = zicUI.render;
