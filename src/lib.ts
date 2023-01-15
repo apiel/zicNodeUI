@@ -27,9 +27,16 @@ export interface Point {
     y: number;
 }
 export const drawPoint: (point: Point) => void = zicUI.drawPoint;
-export const drawLine: (x1: number, y1: number, x2: number, y2: number) => void = zicUI.drawLine;
-export const drawRect: (x: number, y: number, w: number, h: number, fill?: boolean) => void =
-    zicUI.drawRect;
+export const drawLine: (point1: Point, point2: Point) => void = zicUI.drawLine;
+
+export interface Rect {
+    point: Point;
+    w: number;
+    h: number;
+}
+export const drawRect: (rect: Rect) => void = zicUI.drawRect;
+export const drawFilledRect: (rect: Rect) => void = zicUI.drawFilledRect;
+
 export const drawText: (
     text: string,
     x: number,

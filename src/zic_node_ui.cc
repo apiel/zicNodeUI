@@ -70,11 +70,10 @@ Napi::Value drawLine(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        uint32_t x1 = getArgsInRange(info, 0, "x1", 0, SCREEN_W - 1);
-        uint32_t y1 = getArgsInRange(info, 1, "y1", 0, SCREEN_H - 1);
-        uint32_t x2 = getArgsInRange(info, 2, "x2", 0, SCREEN_W - 1);
-        uint32_t y2 = getArgsInRange(info, 3, "y2", 0, SCREEN_H - 1);
-        SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+        Point point1, point2;
+        getPoint(env, info[0], point1);
+        getPoint(env, info[1], point2);
+        SDL_RenderDrawLine(renderer, point1.x, point1.y, point2.x, point2.y);
     } catch (const Napi::Error& e) {
         e.ThrowAsJavaScriptException();
     }
@@ -85,17 +84,25 @@ Napi::Value drawRect(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        uint32_t x = getArgsInRange(info, 0, "x", 0, SCREEN_W - 1);
-        uint32_t y = getArgsInRange(info, 1, "y", 0, SCREEN_H - 1);
-        uint32_t w = getArgsInRange(info, 2, "w", 1, SCREEN_W - x);
-        uint32_t h = getArgsInRange(info, 3, "h", 1, SCREEN_H - y);
-        bool filled = info.Length() > 4 && info[4].As<Napi::Boolean>().Value();
-        SDL_Rect rect = { (int)x, (int)y, (int)w, (int)h };
-        if (filled) {
-            SDL_RenderFillRect(renderer, &rect);
-        } else {
-            SDL_RenderDrawRect(renderer, &rect);
-        }
+        Rect rect;
+        getRect(env, info[0], rect);
+        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.w, (int)rect.h };
+        SDL_RenderDrawRect(renderer, &sldRect);
+        return env.Undefined();
+    } catch (const Napi::Error& e) {
+        e.ThrowAsJavaScriptException();
+        return env.Undefined();
+    }
+}
+
+Napi::Value drawFilledRect(const Napi::CallbackInfo& info)
+{
+    Napi::Env env = info.Env();
+    try {
+        Rect rect;
+        getRect(env, info[0], rect);
+        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.w, (int)rect.h };
+        SDL_RenderFillRect(renderer, &sldRect);
         return env.Undefined();
     } catch (const Napi::Error& e) {
         e.ThrowAsJavaScriptException();
@@ -195,6 +202,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
     exports.Set(Napi::String::New(env, "render"), Napi::Function::New(env, render));
     exports.Set(Napi::String::New(env, "setColor"), Napi::Function::New(env, setColor));
     exports.Set(Napi::String::New(env, "drawRect"), Napi::Function::New(env, drawRect));
+    exports.Set(Napi::String::New(env, "drawFilledRect"), Napi::Function::New(env, drawFilledRect));
     exports.Set(Napi::String::New(env, "drawPoint"), Napi::Function::New(env, drawPoint));
     exports.Set(Napi::String::New(env, "drawLine"), Napi::Function::New(env, drawLine));
     exports.Set(Napi::String::New(env, "drawText"), Napi::Function::New(env, drawText));

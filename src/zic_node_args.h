@@ -58,4 +58,20 @@ void getPoint(const Napi::Env& env, const Napi::Value& value, Point& point)
     point.y = getValueInRange(env, value.As<Napi::Object>().Get("y"), "y", 0, SCREEN_H - 1);
 }
 
+struct Rect {
+    Point point;
+    uint32_t w;
+    uint32_t h;
+};
+
+void getRect(const Napi::Env& env, const Napi::Value& value, Rect& rect)
+{
+    if (!value.IsObject()) {
+        throw Napi::Error::New(env, "Rect must be an object {x: number, y: number, w: number, h: number}");
+    }
+    getPoint(env, value.As<Napi::Object>().Get("point"), rect.point);
+    rect.w = getValueInRange(env, value.As<Napi::Object>().Get("w"), "w", 1, SCREEN_W - rect.point.x);
+    rect.h = getValueInRange(env, value.As<Napi::Object>().Get("h"), "h", 1, SCREEN_H - rect.point.y);
+}
+
 #endif

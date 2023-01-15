@@ -19,8 +19,14 @@ export interface Point {
     y: number;
 }
 export declare const drawPoint: (point: Point) => void;
-export declare const drawLine: (x1: number, y1: number, x2: number, y2: number) => void;
-export declare const drawRect: (x: number, y: number, w: number, h: number, fill?: boolean) => void;
+export declare const drawLine: (point1: Point, point2: Point) => void;
+export interface Rect {
+    point: Point;
+    w: number;
+    h: number;
+}
+export declare const drawRect: (rect: Rect) => void;
+export declare const drawFilledRect: (rect: Rect) => void;
 export declare const drawText: (text: string, x: number, y: number, r: number, g: number, b: number, size?: number, a?: number) => void;
 export declare const clear: (() => void) | ((r: number, g: number, b: number, a?: number) => void);
 export {};
