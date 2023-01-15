@@ -31,6 +31,14 @@ Napi::Value getScreen(const Napi::CallbackInfo& info)
     size.Set("w", Napi::Number::New(env, screen.w));
     size.Set("h", Napi::Number::New(env, screen.h));
     obj.Set("size", size);
+
+    int x, y;
+    SDL_GetWindowPosition(window, &x, &y);
+    Napi::Object pos = Napi::Object::New(env);
+    pos.Set("x", Napi::Number::New(env, x));
+    pos.Set("y", Napi::Number::New(env, y));
+    obj.Set("position", pos);
+
     return obj;
 }
 
@@ -83,8 +91,8 @@ Napi::Value drawPoint(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        Point point = getPoint(env, info[0]);
-        SDL_RenderDrawPoint(renderer, point.x, point.y);
+        Point position = getPoint(env, info[0]);
+        SDL_RenderDrawPoint(renderer, position.x, position.y);
     } catch (const Napi::Error& e) {
         e.ThrowAsJavaScriptException();
     }
@@ -95,10 +103,10 @@ Napi::Value drawLine(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        Point point1, point2;
-        getPoint(env, info[0], point1);
-        getPoint(env, info[1], point2);
-        SDL_RenderDrawLine(renderer, point1.x, point1.y, point2.x, point2.y);
+        Point position1, position2;
+        getPoint(env, info[0], position1);
+        getPoint(env, info[1], position2);
+        SDL_RenderDrawLine(renderer, position1.x, position1.y, position2.x, position2.y);
     } catch (const Napi::Error& e) {
         e.ThrowAsJavaScriptException();
     }
@@ -110,7 +118,7 @@ Napi::Value drawRect(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
     try {
         Rect rect = getRect(env, info[0]);
-        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.size.w, (int)rect.size.h };
+        SDL_Rect sldRect = { (int)rect.position.x, (int)rect.position.y, (int)rect.size.w, (int)rect.size.h };
         SDL_RenderDrawRect(renderer, &sldRect);
         return env.Undefined();
     } catch (const Napi::Error& e) {
@@ -124,7 +132,7 @@ Napi::Value drawFilledRect(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
     try {
         Rect rect = getRect(env, info[0]);
-        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.size.w, (int)rect.size.h };
+        SDL_Rect sldRect = { (int)rect.position.x, (int)rect.position.y, (int)rect.size.w, (int)rect.size.h };
         SDL_RenderFillRect(renderer, &sldRect);
         return env.Undefined();
     } catch (const Napi::Error& e) {
@@ -138,7 +146,7 @@ Napi::Value drawText(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
     try {
         std::string text = info[0].As<Napi::String>().Utf8Value();
-        Point point = getPoint(env, info[1]);
+        Point position = getPoint(env, info[1]);
         Color color = ZIC_DEFAULT_FONT_COLOR;
         uint32_t size = ZIC_DEFAULT_FONT_SIZE;
         std::string fontPath = ZIC_DEFAULT_FONT;
@@ -174,7 +182,7 @@ Napi::Value drawText(const Napi::CallbackInfo& info)
             throw Napi::Error::New(env, "Failed to create texture");
         }
 
-        SDL_Rect rect = { (int)point.x, (int)point.y, surface->w, surface->h };
+        SDL_Rect rect = { (int)position.x, (int)position.y, surface->w, surface->h };
         SDL_RenderCopy(renderer, texture, NULL, &rect);
 
         SDL_FreeSurface(surface);

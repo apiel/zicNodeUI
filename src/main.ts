@@ -16,17 +16,17 @@ import {
     getScreen,
 } from './lib';
 
+open();
 console.log('screen', getScreen());
 
-open();
 const red: Color = { r: 255, g: 0, b: 0 };
 const white: Color = { r: 255, g: 255, b: 255 };
 const blue: Color = rgb('#6189cb');
 const background: Color = rgb('#21252b');
 clear(background);
 setColor(red);
-drawRect({ point: { x: 10, y: 10 }, size: { h: 100, w: 100 } });
-drawFilledRect({ point: { x: 30, y: 30 }, size: { h: 100, w: 100 } });
+drawRect({ position: { x: 10, y: 10 }, size: { h: 100, w: 100 } });
+drawFilledRect({ position: { x: 30, y: 30 }, size: { h: 100, w: 100 } });
 setColor(blue);
 drawLine({ x: 10, y: 150 }, { x: 150, y: 150 });
 drawPoint({ x: 5, y: 5 });

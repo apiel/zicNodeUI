@@ -18,7 +18,7 @@ export interface Size {
     h: number;
 }
 export interface Rect {
-    point: Point;
+    position: Point;
     size: Size;
 }
 export interface TextOptions {
@@ -29,6 +29,7 @@ export interface TextOptions {
 export declare function rgb(color: string): Color;
 export interface Screen {
     size: Size;
+    position: Point;
 }
 export declare const getScreen: () => Screen;
 export declare const open: () => void;
@@ -37,10 +38,10 @@ export declare const getEvents: () => Events;
 export declare const render: () => void;
 export declare const clear: (color?: Color) => void;
 export declare const setColor: (color: Color) => number;
-export declare const drawPoint: (point: Point) => void;
-export declare const drawLine: (point1: Point, point2: Point) => void;
+export declare const drawPoint: (position: Point) => void;
+export declare const drawLine: (position1: Point, position2: Point) => void;
 export declare const drawRect: (rect: Rect) => void;
 export declare const drawFilledRect: (rect: Rect) => void;
-export declare const drawText: (text: string, point: Point, options?: TextOptions) => void;
+export declare const drawText: (text: string, position: Point, options?: TextOptions) => void;
 export {};
 //# sourceMappingURL=lib.d.ts.map

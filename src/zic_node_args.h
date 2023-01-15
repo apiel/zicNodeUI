@@ -56,20 +56,20 @@ struct Point {
     uint32_t y;
 };
 
-void getPoint(const Napi::Env& env, const Napi::Value& value, Point& point)
+void getPoint(const Napi::Env& env, const Napi::Value& value, Point& position)
 {
     if (!value.IsObject()) {
         throw Napi::Error::New(env, "Point must be an object {x: number, y: number}");
     }
-    point.x = getValueInRange(env, value.As<Napi::Object>().Get("x"), "x", 0, screen.w - 1);
-    point.y = getValueInRange(env, value.As<Napi::Object>().Get("y"), "y", 0, screen.h - 1);
+    position.x = getValueInRange(env, value.As<Napi::Object>().Get("x"), "x", 0, screen.w - 1);
+    position.y = getValueInRange(env, value.As<Napi::Object>().Get("y"), "y", 0, screen.h - 1);
 }
 
 Point& getPoint(const Napi::Env& env, const Napi::Value& value)
 {
-    static Point point;
-    getPoint(env, value, point);
-    return point;
+    static Point position;
+    getPoint(env, value, position);
+    return position;
 }
 
 void getSize(const Napi::Env& env, const Napi::Value& value, Size& size)
@@ -89,7 +89,7 @@ Size getSize(const Napi::Env& env, const Napi::Value& value)
 }
 
 struct Rect {
-    Point point;
+    Point position;
     Size size;
 };
 
@@ -98,7 +98,7 @@ void getRect(const Napi::Env& env, const Napi::Value& value, Rect& rect)
     if (!value.IsObject()) {
         throw Napi::Error::New(env, "Rect must be an object {x: number, y: number, w: number, h: number}");
     }
-    getPoint(env, value.As<Napi::Object>().Get("point"), rect.point);
+    getPoint(env, value.As<Napi::Object>().Get("position"), rect.position);
     getSize(env, value.As<Napi::Object>().Get("size"), rect.size);
 }
 

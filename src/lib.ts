@@ -24,7 +24,7 @@ export interface Size {
 }
 
 export interface Rect {
-    point: Point;
+    position: Point;
     size: Size;
 }
 
@@ -48,6 +48,7 @@ export function rgb(color: string): Color {
 
 export interface Screen {
     size: Size;
+    position: Point;
 }
 
 export const getScreen: () => Screen = zicUI.getScreen;
@@ -57,9 +58,9 @@ export const getEvents: () => Events = zicUI.getEvents;
 export const render: () => void = zicUI.render;
 export const clear: (color?: Color) => void = zicUI.clear;
 export const setColor: (color: Color) => number = zicUI.setColor;
-export const drawPoint: (point: Point) => void = zicUI.drawPoint;
-export const drawLine: (point1: Point, point2: Point) => void = zicUI.drawLine;
+export const drawPoint: (position: Point) => void = zicUI.drawPoint;
+export const drawLine: (position1: Point, position2: Point) => void = zicUI.drawLine;
 export const drawRect: (rect: Rect) => void = zicUI.drawRect;
 export const drawFilledRect: (rect: Rect) => void = zicUI.drawFilledRect;
-export const drawText: (text: string, point: Point, options?: TextOptions) => void =
+export const drawText: (text: string, position: Point, options?: TextOptions) => void =
     zicUI.drawText;
