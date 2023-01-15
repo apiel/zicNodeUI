@@ -5,9 +5,6 @@
 
 #include "zic_node_args.h"
 
-#define SCREEN_W 480
-#define SCREEN_H 320
-
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
@@ -60,9 +57,9 @@ Napi::Value drawPoint(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        uint32_t x = getArgsInRange(info, 0, "x", 0, SCREEN_W - 1);
-        uint32_t y = getArgsInRange(info, 1, "y", 0, SCREEN_H - 1);
-        SDL_RenderDrawPoint(renderer, x, y);
+        Point point;
+        getPoint(env, info[0], point);
+        SDL_RenderDrawPoint(renderer, point.x, point.y);
     } catch (const Napi::Error& e) {
         e.ThrowAsJavaScriptException();
     }

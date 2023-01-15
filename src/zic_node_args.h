@@ -3,6 +3,9 @@
 
 #include <napi.h>
 
+#define SCREEN_W 480
+#define SCREEN_H 320
+
 uint32_t getValueInRange(const Napi::Env& env, const Napi::Value& value, const std::string& name, uint32_t min, uint32_t max)
 {
     if (!value.IsNumber()) {
@@ -32,6 +35,20 @@ uint32_t* getColor(const Napi::Env& env, const Napi::Value& value)
     color[3] = value.As<Napi::Object>().Has("a") ? getValueInRange(env, value.As<Napi::Object>().Get("a"), "a", 0, 255)
                                                  : 255;
     return color;
+}
+
+struct Point {
+    uint32_t x;
+    uint32_t y;
+};
+
+void getPoint(const Napi::Env& env, const Napi::Value& value, Point& point)
+{
+    if (!value.IsObject()) {
+        throw Napi::Error::New(env, "Point must be an object {x: number, y: number}");
+    }
+    point.x = getValueInRange(env, value.As<Napi::Object>().Get("x"), "x", 0, SCREEN_W - 1);
+    point.y = getValueInRange(env, value.As<Napi::Object>().Get("y"), "y", 0, SCREEN_H - 1);
 }
 
 #endif

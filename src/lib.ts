@@ -22,10 +22,14 @@ export interface Color {
 }
 export const setColor: (color: Color) => number = zicUI.setColor;
 
+export interface Point {
+    x: number;
+    y: number;
+}
+export const drawPoint: (point: Point) => void = zicUI.drawPoint;
+export const drawLine: (x1: number, y1: number, x2: number, y2: number) => void = zicUI.drawLine;
 export const drawRect: (x: number, y: number, w: number, h: number, fill?: boolean) => void =
     zicUI.drawRect;
-export const drawPoint: (x: number, y: number) => void = zicUI.drawPoint;
-export const drawLine: (x1: number, y1: number, x2: number, y2: number) => void = zicUI.drawLine;
 export const drawText: (
     text: string,
     x: number,
