@@ -5,13 +5,13 @@
 
 #define SCREEN { w:480, h: 320 }
 
-struct Dimension
+struct Size
 {
     uint32_t w;
     uint32_t h;
 };
 
-Dimension screen = SCREEN;
+Size screen = SCREEN;
 
 uint32_t getValueInRange(const Napi::Env& env, const Napi::Value& value, const std::string& name, uint32_t min, uint32_t max)
 {
@@ -72,25 +72,25 @@ Point& getPoint(const Napi::Env& env, const Napi::Value& value)
     return point;
 }
 
-void getDimension(const Napi::Env& env, const Napi::Value& value, Dimension& dimension)
+void getSize(const Napi::Env& env, const Napi::Value& value, Size& size)
 {
     if (!value.IsObject()) {
-        throw Napi::Error::New(env, "Dimension must be an object {w: number, h: number}");
+        throw Napi::Error::New(env, "Size must be an object {w: number, h: number}");
     }
-    dimension.w = getValueInRange(env, value.As<Napi::Object>().Get("w"), "w", 1, screen.w);
-    dimension.h = getValueInRange(env, value.As<Napi::Object>().Get("h"), "h", 1, screen.h);
+    size.w = getValueInRange(env, value.As<Napi::Object>().Get("w"), "w", 1, screen.w);
+    size.h = getValueInRange(env, value.As<Napi::Object>().Get("h"), "h", 1, screen.h);
 }
 
-Dimension getDimension(const Napi::Env& env, const Napi::Value& value)
+Size getSize(const Napi::Env& env, const Napi::Value& value)
 {
-    Dimension dimension;
-    getDimension(env, value, dimension);
-    return dimension;
+    Size size;
+    getSize(env, value, size);
+    return size;
 }
 
 struct Rect {
     Point point;
-    Dimension dimension;
+    Size size;
 };
 
 void getRect(const Napi::Env& env, const Napi::Value& value, Rect& rect)
@@ -99,7 +99,7 @@ void getRect(const Napi::Env& env, const Napi::Value& value, Rect& rect)
         throw Napi::Error::New(env, "Rect must be an object {x: number, y: number, w: number, h: number}");
     }
     getPoint(env, value.As<Napi::Object>().Get("point"), rect.point);
-    getDimension(env, value.As<Napi::Object>().Get("dimension"), rect.dimension);
+    getSize(env, value.As<Napi::Object>().Get("size"), rect.size);
 }
 
 Rect getRect(const Napi::Env& env, const Napi::Value& value)

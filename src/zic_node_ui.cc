@@ -27,10 +27,10 @@ Napi::Value getScreen(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     Napi::Object obj = Napi::Object::New(env);
-    Napi::Object dimension = Napi::Object::New(env);
-    dimension.Set("w", Napi::Number::New(env, screen.w));
-    dimension.Set("h", Napi::Number::New(env, screen.h));
-    obj.Set("dimension", dimension);
+    Napi::Object size = Napi::Object::New(env);
+    size.Set("w", Napi::Number::New(env, screen.w));
+    size.Set("h", Napi::Number::New(env, screen.h));
+    obj.Set("size", size);
     return obj;
 }
 
@@ -110,7 +110,7 @@ Napi::Value drawRect(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
     try {
         Rect rect = getRect(env, info[0]);
-        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.dimension.w, (int)rect.dimension.h };
+        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.size.w, (int)rect.size.h };
         SDL_RenderDrawRect(renderer, &sldRect);
         return env.Undefined();
     } catch (const Napi::Error& e) {
@@ -124,7 +124,7 @@ Napi::Value drawFilledRect(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
     try {
         Rect rect = getRect(env, info[0]);
-        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.dimension.w, (int)rect.dimension.h };
+        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.size.w, (int)rect.size.h };
         SDL_RenderFillRect(renderer, &sldRect);
         return env.Undefined();
     } catch (const Napi::Error& e) {
