@@ -34,14 +34,5 @@ export const drawPoint: (point: Point) => void = zicUI.drawPoint;
 export const drawLine: (point1: Point, point2: Point) => void = zicUI.drawLine;
 export const drawRect: (rect: Rect) => void = zicUI.drawRect;
 export const drawFilledRect: (rect: Rect) => void = zicUI.drawFilledRect;
-
-export const drawText: (
-    text: string,
-    x: number,
-    y: number,
-    r: number,
-    g: number,
-    b: number,
-    size?: number,
-    a?: number,
-) => void = zicUI.drawText;
+export const drawText: (text: string, point: Point, color: Color, size?: number) => void =
+    zicUI.drawText;
