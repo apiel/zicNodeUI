@@ -57,8 +57,7 @@ Napi::Value drawPoint(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        Point point;
-        getPoint(env, info[0], point);
+        Point point = getPoint(env, info[0]);
         SDL_RenderDrawPoint(renderer, point.x, point.y);
     } catch (const Napi::Error& e) {
         e.ThrowAsJavaScriptException();
@@ -84,8 +83,7 @@ Napi::Value drawRect(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        Rect rect;
-        getRect(env, info[0], rect);
+        Rect rect = getRect(env, info[0]);
         SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.w, (int)rect.h };
         SDL_RenderDrawRect(renderer, &sldRect);
         return env.Undefined();
@@ -99,8 +97,7 @@ Napi::Value drawFilledRect(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     try {
-        Rect rect;
-        getRect(env, info[0], rect);
+        Rect rect = getRect(env, info[0]);
         SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.w, (int)rect.h };
         SDL_RenderFillRect(renderer, &sldRect);
         return env.Undefined();

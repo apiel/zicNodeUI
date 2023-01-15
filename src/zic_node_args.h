@@ -58,6 +58,13 @@ void getPoint(const Napi::Env& env, const Napi::Value& value, Point& point)
     point.y = getValueInRange(env, value.As<Napi::Object>().Get("y"), "y", 0, SCREEN_H - 1);
 }
 
+Point& getPoint(const Napi::Env& env, const Napi::Value& value)
+{
+    static Point point;
+    getPoint(env, value, point);
+    return point;
+}
+
 struct Rect {
     Point point;
     uint32_t w;
@@ -72,6 +79,13 @@ void getRect(const Napi::Env& env, const Napi::Value& value, Rect& rect)
     getPoint(env, value.As<Napi::Object>().Get("point"), rect.point);
     rect.w = getValueInRange(env, value.As<Napi::Object>().Get("w"), "w", 1, SCREEN_W - rect.point.x);
     rect.h = getValueInRange(env, value.As<Napi::Object>().Get("h"), "h", 1, SCREEN_H - rect.point.y);
+}
+
+Rect getRect(const Napi::Env& env, const Napi::Value& value)
+{
+    Rect rect;
+    getRect(env, value, rect);
+    return rect;
 }
 
 #endif
