@@ -16,12 +16,23 @@
 #ifndef ZIC_DEFAULT_FONT_COLOR
 #define ZIC_DEFAULT_FONT_COLOR \
     {                          \
-        255, 255, 255, 255           \
+        255, 255, 255, 255     \
     }
 #endif
 
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
+
+Napi::Value getScreen(const Napi::CallbackInfo& info)
+{
+    Napi::Env env = info.Env();
+    Napi::Object obj = Napi::Object::New(env);
+    Napi::Object dimension = Napi::Object::New(env);
+    dimension.Set("w", Napi::Number::New(env, screen.w));
+    dimension.Set("h", Napi::Number::New(env, screen.h));
+    obj.Set("dimension", dimension);
+    return obj;
+}
 
 Napi::Value open(const Napi::CallbackInfo& info)
 {
@@ -29,7 +40,7 @@ Napi::Value open(const Napi::CallbackInfo& info)
     window = SDL_CreateWindow(
         "Zic", SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        SCREEN_W, SCREEN_H,
+        screen.w, screen.h,
         SDL_WINDOW_SHOWN);
 
     TTF_Init();
@@ -99,7 +110,7 @@ Napi::Value drawRect(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
     try {
         Rect rect = getRect(env, info[0]);
-        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.w, (int)rect.h };
+        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.dimension.w, (int)rect.dimension.h };
         SDL_RenderDrawRect(renderer, &sldRect);
         return env.Undefined();
     } catch (const Napi::Error& e) {
@@ -113,7 +124,7 @@ Napi::Value drawFilledRect(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
     try {
         Rect rect = getRect(env, info[0]);
-        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.w, (int)rect.h };
+        SDL_Rect sldRect = { (int)rect.point.x, (int)rect.point.y, (int)rect.dimension.w, (int)rect.dimension.h };
         SDL_RenderFillRect(renderer, &sldRect);
         return env.Undefined();
     } catch (const Napi::Error& e) {
@@ -218,6 +229,7 @@ Napi::Object getEvents(const Napi::CallbackInfo& info)
 
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
+    exports.Set(Napi::String::New(env, "getScreen"), Napi::Function::New(env, getScreen));
     exports.Set(Napi::String::New(env, "open"), Napi::Function::New(env, open));
     exports.Set(Napi::String::New(env, "close"), Napi::Function::New(env, close));
     exports.Set(Napi::String::New(env, "getEvents"), Napi::Function::New(env, getEvents));

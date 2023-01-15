@@ -18,10 +18,14 @@ export interface Point {
     y: number;
 }
 
-export interface Rect {
-    point: Point;
+export interface Dimension {
     w: number;
     h: number;
+}
+
+export interface Rect {
+    point: Point;
+    dimension: Dimension;
 }
 
 export interface TextOptions {
@@ -42,6 +46,11 @@ export function rgb(color: string): Color {
     return { r, g, b };
 }
 
+export interface Screen {
+    dimension: Dimension;
+}
+
+export const getScreen: () => Screen = zicUI.getScreen;
 export const open: () => void = zicUI.open;
 export const close: () => void = zicUI.close;
 export const getEvents: () => Events = zicUI.getEvents;

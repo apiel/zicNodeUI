@@ -13,10 +13,13 @@ export interface Point {
     x: number;
     y: number;
 }
-export interface Rect {
-    point: Point;
+export interface Dimension {
     w: number;
     h: number;
+}
+export interface Rect {
+    point: Point;
+    dimension: Dimension;
 }
 export interface TextOptions {
     color?: Color;
@@ -24,6 +27,10 @@ export interface TextOptions {
     font?: string;
 }
 export declare function rgb(color: string): Color;
+export interface Screen {
+    dimension: Dimension;
+}
+export declare const getScreen: () => Screen;
 export declare const open: () => void;
 export declare const close: () => void;
 export declare const getEvents: () => Events;

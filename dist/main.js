@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const process_1 = require("process");
 const lib_1 = require("./lib");
+console.log('screen', (0, lib_1.getScreen)());
 (0, lib_1.open)();
 const red = { r: 255, g: 0, b: 0 };
 const white = { r: 255, g: 255, b: 255 };
@@ -9,8 +10,8 @@ const blue = (0, lib_1.rgb)('#6189cb');
 const background = (0, lib_1.rgb)('#21252b');
 (0, lib_1.clear)(background);
 (0, lib_1.setColor)(red);
-(0, lib_1.drawRect)({ point: { x: 10, y: 10 }, h: 100, w: 100 });
-(0, lib_1.drawFilledRect)({ point: { x: 30, y: 30 }, h: 100, w: 100 });
+(0, lib_1.drawRect)({ point: { x: 10, y: 10 }, dimension: { h: 100, w: 100 } });
+(0, lib_1.drawFilledRect)({ point: { x: 30, y: 30 }, dimension: { h: 100, w: 100 } });
 (0, lib_1.setColor)(blue);
 (0, lib_1.drawLine)({ x: 10, y: 150 }, { x: 150, y: 150 });
 (0, lib_1.drawPoint)({ x: 5, y: 5 });

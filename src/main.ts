@@ -13,23 +13,29 @@ import {
     drawFilledRect,
     rgb,
     clear,
+    getScreen,
 } from './lib';
 
-open();
+console.log('screen', getScreen());
 
+open();
 const red: Color = { r: 255, g: 0, b: 0 };
 const white: Color = { r: 255, g: 255, b: 255 };
 const blue: Color = rgb('#6189cb');
 const background: Color = rgb('#21252b');
 clear(background);
 setColor(red);
-drawRect({ point: { x: 10, y: 10 }, h: 100, w: 100 });
-drawFilledRect({ point: { x: 30, y: 30 }, h: 100, w: 100 });
+drawRect({ point: { x: 10, y: 10 }, dimension: { h: 100, w: 100 } });
+drawFilledRect({ point: { x: 30, y: 30 }, dimension: { h: 100, w: 100 } });
 setColor(blue);
 drawLine({ x: 10, y: 150 }, { x: 150, y: 150 });
 drawPoint({ x: 5, y: 5 });
 drawText('Hello World', { x: 10, y: 10 }, { color: white, size: 20 });
-drawText('Hello', { x: 120, y: 10 }, { color: blue, font: '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf' });
+drawText(
+    'Hello',
+    { x: 120, y: 10 },
+    { color: blue, font: '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf' },
+);
 drawText('without options', { x: 120, y: 30 });
 render();
 

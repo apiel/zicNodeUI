@@ -3,8 +3,15 @@
 
 #include <napi.h>
 
-#define SCREEN_W 480
-#define SCREEN_H 320
+#define SCREEN { w:480, h: 320 }
+
+struct Dimension
+{
+    uint32_t w;
+    uint32_t h;
+};
+
+Dimension screen = SCREEN;
 
 uint32_t getValueInRange(const Napi::Env& env, const Napi::Value& value, const std::string& name, uint32_t min, uint32_t max)
 {
@@ -54,8 +61,8 @@ void getPoint(const Napi::Env& env, const Napi::Value& value, Point& point)
     if (!value.IsObject()) {
         throw Napi::Error::New(env, "Point must be an object {x: number, y: number}");
     }
-    point.x = getValueInRange(env, value.As<Napi::Object>().Get("x"), "x", 0, SCREEN_W - 1);
-    point.y = getValueInRange(env, value.As<Napi::Object>().Get("y"), "y", 0, SCREEN_H - 1);
+    point.x = getValueInRange(env, value.As<Napi::Object>().Get("x"), "x", 0, screen.w - 1);
+    point.y = getValueInRange(env, value.As<Napi::Object>().Get("y"), "y", 0, screen.h - 1);
 }
 
 Point& getPoint(const Napi::Env& env, const Napi::Value& value)
@@ -65,10 +72,25 @@ Point& getPoint(const Napi::Env& env, const Napi::Value& value)
     return point;
 }
 
+void getDimension(const Napi::Env& env, const Napi::Value& value, Dimension& dimension)
+{
+    if (!value.IsObject()) {
+        throw Napi::Error::New(env, "Dimension must be an object {w: number, h: number}");
+    }
+    dimension.w = getValueInRange(env, value.As<Napi::Object>().Get("w"), "w", 1, screen.w);
+    dimension.h = getValueInRange(env, value.As<Napi::Object>().Get("h"), "h", 1, screen.h);
+}
+
+Dimension getDimension(const Napi::Env& env, const Napi::Value& value)
+{
+    Dimension dimension;
+    getDimension(env, value, dimension);
+    return dimension;
+}
+
 struct Rect {
     Point point;
-    uint32_t w;
-    uint32_t h;
+    Dimension dimension;
 };
 
 void getRect(const Napi::Env& env, const Napi::Value& value, Rect& rect)
@@ -77,8 +99,7 @@ void getRect(const Napi::Env& env, const Napi::Value& value, Rect& rect)
         throw Napi::Error::New(env, "Rect must be an object {x: number, y: number, w: number, h: number}");
     }
     getPoint(env, value.As<Napi::Object>().Get("point"), rect.point);
-    rect.w = getValueInRange(env, value.As<Napi::Object>().Get("w"), "w", 1, SCREEN_W - rect.point.x);
-    rect.h = getValueInRange(env, value.As<Napi::Object>().Get("h"), "h", 1, SCREEN_H - rect.point.y);
+    getDimension(env, value.As<Napi::Object>().Get("dimension"), rect.dimension);
 }
 
 Rect getRect(const Napi::Env& env, const Napi::Value& value)
