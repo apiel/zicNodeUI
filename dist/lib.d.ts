@@ -18,6 +18,10 @@ export interface Rect {
     w: number;
     h: number;
 }
+export interface TextOptions {
+    color?: Color;
+    size?: number;
+}
 export declare function rgb(color: string): Color;
 export declare const open: () => void;
 export declare const close: () => void;
@@ -29,6 +33,6 @@ export declare const drawPoint: (point: Point) => void;
 export declare const drawLine: (point1: Point, point2: Point) => void;
 export declare const drawRect: (rect: Rect) => void;
 export declare const drawFilledRect: (rect: Rect) => void;
-export declare const drawText: (text: string, point: Point, color: Color, size?: number) => void;
+export declare const drawText: (text: string, point: Point, options?: TextOptions) => void;
 export {};
 //# sourceMappingURL=lib.d.ts.map

@@ -24,6 +24,11 @@ export interface Rect {
     h: number;
 }
 
+export interface TextOptions {
+    color?: Color;
+    size?: number;
+}
+
 export function rgb(color: string): Color {
     const rgb = color
         .replace(/#/, '')
@@ -46,5 +51,5 @@ export const drawPoint: (point: Point) => void = zicUI.drawPoint;
 export const drawLine: (point1: Point, point2: Point) => void = zicUI.drawLine;
 export const drawRect: (rect: Rect) => void = zicUI.drawRect;
 export const drawFilledRect: (rect: Rect) => void = zicUI.drawFilledRect;
-export const drawText: (text: string, point: Point, color: Color, size?: number) => void =
+export const drawText: (text: string, point: Point, options?: TextOptions) => void =
     zicUI.drawText;

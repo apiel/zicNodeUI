@@ -5,6 +5,21 @@
 
 #include "zic_node_args.h"
 
+#ifndef ZIC_DEFAULT_FONT
+#define ZIC_DEFAULT_FONT "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+#endif
+
+#ifndef ZIC_DEFAULT_FONT_SIZE
+#define ZIC_DEFAULT_FONT_SIZE 16
+#endif
+
+#ifndef ZIC_DEFAULT_FONT_COLOR
+#define ZIC_DEFAULT_FONT_COLOR \
+    {                          \
+        255, 255, 255, 255           \
+    }
+#endif
+
 SDL_Window* window = NULL;
 SDL_Renderer* renderer = NULL;
 
@@ -113,11 +128,23 @@ Napi::Value drawText(const Napi::CallbackInfo& info)
     try {
         std::string text = info[0].As<Napi::String>().Utf8Value();
         Point point = getPoint(env, info[1]);
-        Color color = getColor(env, info[2]);
-        uint32_t size = info.Length() > 3 ? getArgsInRange(info, 3, "size", 1, 255) : 16;
+        Color color = ZIC_DEFAULT_FONT_COLOR;
+        uint32_t size = ZIC_DEFAULT_FONT_SIZE;
 
-        // TTF_Font* font = TTF_OpenFont("FreeSans.ttf", size);
-        TTF_Font* font = TTF_OpenFont("/usr/share/fonts/truetype/freefont/FreeMono.ttf", size);
+        if (info.Length() > 2) {
+            if (info[2].IsObject()) {
+                if (info[2].As<Napi::Object>().Has("color")) {
+                    color = getColor(env, info[2].As<Napi::Object>().Get("color"));
+                }
+                if (info[2].As<Napi::Object>().Has("size")) {
+                    size = getValueInRange(env, info[2].As<Napi::Object>().Get("size"), "size", 1, 255);
+                }
+            } else {
+                throw Napi::Error::New(env, "Invalid options argument: { color?: Color, size?: number }");
+            }
+        }
+
+        TTF_Font* font = TTF_OpenFont(ZIC_DEFAULT_FONT, size);
         if (font == NULL) {
             throw Napi::Error::New(env, "Failed to load font");
         }

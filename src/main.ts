@@ -25,7 +25,9 @@ drawFilledRect({ point: { x: 30, y: 30 }, h: 100, w: 100 });
 setColor(blue);
 drawLine({ x: 10, y: 150 }, { x: 150, y: 150 });
 drawPoint({ x: 5, y: 5 });
-drawText('Hello World', { x: 10, y: 10 }, white, 20);
+drawText('Hello World', { x: 10, y: 10 }, { color: white, size: 20 });
+drawText('Hello', { x: 120, y: 10 }, { color: blue });
+drawText('without options', { x: 120, y: 30 });
 render();
 
 setInterval(() => {
