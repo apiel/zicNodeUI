@@ -12,6 +12,7 @@ import {
     drawText,
     drawFilledRect,
     rgb,
+    clear,
 } from './lib';
 
 open();
@@ -19,6 +20,8 @@ open();
 const red: Color = { r: 255, g: 0, b: 0 };
 const white: Color = { r: 255, g: 255, b: 255 };
 const blue: Color = rgb('#6189cb');
+const background: Color = rgb('#21252b');
+clear(background);
 setColor(red);
 drawRect({ point: { x: 10, y: 10 }, h: 100, w: 100 });
 drawFilledRect({ point: { x: 30, y: 30 }, h: 100, w: 100 });

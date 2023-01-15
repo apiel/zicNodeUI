@@ -222,6 +222,7 @@ Napi::Object Init(Napi::Env env, Napi::Object exports)
     exports.Set(Napi::String::New(env, "close"), Napi::Function::New(env, close));
     exports.Set(Napi::String::New(env, "getEvents"), Napi::Function::New(env, getEvents));
     exports.Set(Napi::String::New(env, "render"), Napi::Function::New(env, render));
+    exports.Set(Napi::String::New(env, "clear"), Napi::Function::New(env, clear));
     exports.Set(Napi::String::New(env, "setColor"), Napi::Function::New(env, setColor));
     exports.Set(Napi::String::New(env, "drawRect"), Napi::Function::New(env, drawRect));
     exports.Set(Napi::String::New(env, "drawFilledRect"), Napi::Function::New(env, drawFilledRect));
