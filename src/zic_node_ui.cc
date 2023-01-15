@@ -52,15 +52,15 @@ Napi::Value open(const Napi::CallbackInfo& info)
 
     if (info.Length() > 0) {
         Napi::Object obj = info[0].As<Napi::Object>();
-        if (obj.Has("size")) {
+        if (obj.Has("size") && !obj.Get("size").IsUndefined()) {
             Size size = getSize(env, obj.Get("size"));
             w = size.w;
             h = size.h;
         }
-        if (obj.Has("position")) {
-            Point pos = getPoint(env, obj.Get("position"));
-            x = pos.x;
-            y = pos.y;
+        if (obj.Has("position") && !obj.Get("position").IsUndefined()) {
+            Napi::Object position = obj.Get("position").As<Napi::Object>();
+            x = position.Get("x").As<Napi::Number>();
+            y = position.Get("y").As<Napi::Number>();
         }
     }
 
