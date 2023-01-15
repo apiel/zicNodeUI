@@ -21,6 +21,7 @@ export interface Rect {
 export interface TextOptions {
     color?: Color;
     size?: number;
+    font?: string;
 }
 export declare function rgb(color: string): Color;
 export declare const open: () => void;

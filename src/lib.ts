@@ -27,6 +27,7 @@ export interface Rect {
 export interface TextOptions {
     color?: Color;
     size?: number;
+    font?: string;
 }
 
 export function rgb(color: string): Color {

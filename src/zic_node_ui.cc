@@ -130,6 +130,7 @@ Napi::Value drawText(const Napi::CallbackInfo& info)
         Point point = getPoint(env, info[1]);
         Color color = ZIC_DEFAULT_FONT_COLOR;
         uint32_t size = ZIC_DEFAULT_FONT_SIZE;
+        std::string fontPath = ZIC_DEFAULT_FONT;
 
         if (info.Length() > 2) {
             if (info[2].IsObject()) {
@@ -139,12 +140,15 @@ Napi::Value drawText(const Napi::CallbackInfo& info)
                 if (info[2].As<Napi::Object>().Has("size")) {
                     size = getValueInRange(env, info[2].As<Napi::Object>().Get("size"), "size", 1, 255);
                 }
+                if (info[2].As<Napi::Object>().Has("font")) {
+                    fontPath = info[2].As<Napi::Object>().Get("font").As<Napi::String>().Utf8Value();
+                }
             } else {
                 throw Napi::Error::New(env, "Invalid options argument: { color?: Color, size?: number }");
             }
         }
 
-        TTF_Font* font = TTF_OpenFont(ZIC_DEFAULT_FONT, size);
+        TTF_Font* font = TTF_OpenFont(fontPath.c_str(), size);
         if (font == NULL) {
             throw Napi::Error::New(env, "Failed to load font");
         }
