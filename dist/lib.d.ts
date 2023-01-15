@@ -18,6 +18,7 @@ export interface Rect {
     w: number;
     h: number;
 }
+export declare function rgb(color: string): Color;
 export declare const open: () => void;
 export declare const close: () => void;
 export declare const getEvents: () => Events;

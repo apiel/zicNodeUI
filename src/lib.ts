@@ -24,6 +24,18 @@ export interface Rect {
     h: number;
 }
 
+export function rgb(color: string): Color {
+    const rgb = color
+        .replace(/#/, '')
+        .match(/.{1,2}/g)
+        ?.map((x) => parseInt(x, 16));
+    if (!rgb) {
+        throw new Error(`Invalid color: ${color}. Must be in the format #RRGGBB`);
+    }
+    const [r, g, b] = rgb;
+    return { r, g, b };
+}
+
 export const open: () => void = zicUI.open;
 export const close: () => void = zicUI.close;
 export const getEvents: () => Events = zicUI.getEvents;
