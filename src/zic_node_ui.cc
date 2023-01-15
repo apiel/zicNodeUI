@@ -65,7 +65,7 @@ Napi::Value open(const Napi::CallbackInfo& info)
     }
 
     SDL_Init(SDL_INIT_VIDEO);
-    window = SDL_CreateWindow("Zic", x, y, w, h, SDL_WINDOW_SHOWN | SDL_WINDOW_BORDERLESS);
+    window = SDL_CreateWindow("Zic", x, y, w, h, SDL_WINDOW_SHOWN);
 
     TTF_Init();
 
