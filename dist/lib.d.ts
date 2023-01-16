@@ -35,6 +35,10 @@ export interface ScreenOptions {
     size?: Size;
     position?: Point;
 }
+export interface TextReturn {
+    size: Size;
+    position: Point;
+}
 export declare const getScreen: () => Screen;
 export declare const open: (options?: ScreenOptions) => void;
 export declare const close: () => void;
@@ -46,5 +50,5 @@ export declare const drawPoint: (position: Point) => void;
 export declare const drawLine: (position1: Point, position2: Point) => void;
 export declare const drawRect: (rect: Rect) => void;
 export declare const drawFilledRect: (rect: Rect) => void;
-export declare const drawText: (text: string, position: Point, options?: TextOptions) => void;
+export declare const drawText: (text: string, position: Point, options?: TextOptions) => TextReturn;
 //# sourceMappingURL=lib.d.ts.map

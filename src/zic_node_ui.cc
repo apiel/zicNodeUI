@@ -201,9 +201,21 @@ Napi::Value drawText(const Napi::CallbackInfo& info)
         SDL_Rect rect = { (int)position.x, (int)position.y, surface->w, surface->h };
         SDL_RenderCopy(renderer, texture, NULL, &rect);
 
+        Napi::Object result = Napi::Object::New(env);
+        Napi::Object sizeObj = Napi::Object::New(env);
+        sizeObj.Set("w", surface->w);
+        sizeObj.Set("h", surface->h);
+        result.Set("size", sizeObj);
+        Napi::Object positionObj = Napi::Object::New(env);
+        positionObj.Set("x", position.x);
+        positionObj.Set("y", position.y);
+        result.Set("position", positionObj);
+
         SDL_FreeSurface(surface);
         SDL_DestroyTexture(texture);
         TTF_CloseFont(font);
+
+        return result;
     } catch (const Napi::Error& e) {
         e.ThrowAsJavaScriptException();
     }

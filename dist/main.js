@@ -15,7 +15,7 @@ const background = (0, lib_1.rgb)('#21252b');
 (0, lib_1.setColor)(blue);
 (0, lib_1.drawLine)({ x: 10, y: 150 }, { x: 150, y: 150 });
 (0, lib_1.drawPoint)({ x: 5, y: 5 });
-(0, lib_1.drawText)('Hello World', { x: 10, y: 10 }, { color: white, size: 20 });
+console.log('drawText', (0, lib_1.drawText)('Hello World', { x: 10, y: 10 }, { color: white, size: 20 }));
 (0, lib_1.drawText)('Hello', { x: 120, y: 10 }, { color: blue, font: '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf' });
 (0, lib_1.drawText)('without options', { x: 120, y: 30 });
 (0, lib_1.render)();

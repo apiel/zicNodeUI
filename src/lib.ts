@@ -56,6 +56,11 @@ export interface ScreenOptions {
     position?: Point;
 }
 
+export interface TextReturn {
+    size: Size;
+    position: Point;
+}
+
 export const getScreen: () => Screen = zicUI.getScreen;
 export const open: (options?: ScreenOptions) => void = zicUI.open;
 export const close: () => void = zicUI.close;
@@ -67,5 +72,5 @@ export const drawPoint: (position: Point) => void = zicUI.drawPoint;
 export const drawLine: (position1: Point, position2: Point) => void = zicUI.drawLine;
 export const drawRect: (rect: Rect) => void = zicUI.drawRect;
 export const drawFilledRect: (rect: Rect) => void = zicUI.drawFilledRect;
-export const drawText: (text: string, position: Point, options?: TextOptions) => void =
+export const drawText: (text: string, position: Point, options?: TextOptions) => TextReturn =
     zicUI.drawText;
