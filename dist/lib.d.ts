@@ -1,4 +1,4 @@
-interface Events {
+export interface Events {
     exit?: boolean;
     keysDown?: number[];
     keysUp?: number[];
@@ -47,5 +47,4 @@ export declare const drawLine: (position1: Point, position2: Point) => void;
 export declare const drawRect: (rect: Rect) => void;
 export declare const drawFilledRect: (rect: Rect) => void;
 export declare const drawText: (text: string, position: Point, options?: TextOptions) => void;
-export {};
 //# sourceMappingURL=lib.d.ts.map

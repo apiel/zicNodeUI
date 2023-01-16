@@ -1,7 +1,7 @@
 import bindings from 'bindings';
 
 const zicUI = bindings('zic_ui');
-interface Events {
+export interface Events {
     exit?: boolean;
     keysDown?: number[];
     keysUp?: number[];
