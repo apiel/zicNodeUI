@@ -3,22 +3,32 @@
 
 #include <napi.h>
 
-#define SCREEN { w:480, h: 320 }
+#define SCREEN       \
+    {                \
+    w:               \
+        480, h : 320 \
+    }
 
-struct Size
-{
+// #define ZIC_CHECK_RANGE
+
+struct Size {
     uint32_t w;
     uint32_t h;
 };
 
 Size screen = SCREEN;
 
-uint32_t getValueInRange(const Napi::Env& env, const Napi::Value& value, const std::string& name, uint32_t min, uint32_t max)
+uint32_t getInt(const Napi::Env& env, const Napi::Value& value, const std::string& name)
 {
     if (!value.IsNumber()) {
         throw Napi::Error::New(env, name + " must be a number");
     }
-    uint32_t v = value.As<Napi::Number>().Uint32Value();
+    return value.As<Napi::Number>().Uint32Value();
+}
+
+uint32_t getValueInRange(const Napi::Env& env, const Napi::Value& value, const std::string& name, uint32_t min, uint32_t max)
+{
+    uint32_t v = getInt(env, value, name);
     if (v < min || v > max) {
         throw Napi::Error::New(env, name + " out of range , min: " + std::to_string(min) + ", max: " + std::to_string(max));
     }
@@ -61,8 +71,13 @@ void getPoint(const Napi::Env& env, const Napi::Value& value, Point& position)
     if (!value.IsObject()) {
         throw Napi::Error::New(env, "Point must be an object {x: number, y: number}");
     }
+#ifdef ZIC_CHECK_RANGE
     position.x = getValueInRange(env, value.As<Napi::Object>().Get("x"), "x", 0, screen.w - 1);
     position.y = getValueInRange(env, value.As<Napi::Object>().Get("y"), "y", 0, screen.h - 1);
+#else
+    position.x = getInt(env, value.As<Napi::Object>().Get("x"), "x");
+    position.y = getInt(env, value.As<Napi::Object>().Get("y"), "y");
+#endif
 }
 
 Point& getPoint(const Napi::Env& env, const Napi::Value& value)
@@ -77,8 +92,13 @@ void getSize(const Napi::Env& env, const Napi::Value& value, Size& size)
     if (!value.IsObject()) {
         throw Napi::Error::New(env, "Size must be an object {w: number, h: number}");
     }
+#ifdef ZIC_CHECK_RANGE
     size.w = getValueInRange(env, value.As<Napi::Object>().Get("w"), "w", 1, screen.w);
     size.h = getValueInRange(env, value.As<Napi::Object>().Get("h"), "h", 1, screen.h);
+#else
+    size.w = getInt(env, value.As<Napi::Object>().Get("w"), "w");
+    size.h = getInt(env, value.As<Napi::Object>().Get("h"), "h");
+#endif
 }
 
 Size getSize(const Napi::Env& env, const Napi::Value& value)
