@@ -64,6 +64,7 @@ export interface TextReturn {
 export const getScreen: () => Screen = zicUI.getScreen;
 export const open: (options?: ScreenOptions) => void = zicUI.open;
 export const close: () => void = zicUI.close;
+export const minimize: () => void = zicUI.minimize;
 export const getEvents: () => Events = zicUI.getEvents;
 export const render: () => void = zicUI.render;
 export const clear: (color?: Color) => void = zicUI.clear;

@@ -42,6 +42,7 @@ export interface TextReturn {
 export declare const getScreen: () => Screen;
 export declare const open: (options?: ScreenOptions) => void;
 export declare const close: () => void;
+export declare const minimize: () => void;
 export declare const getEvents: () => Events;
 export declare const render: () => void;
 export declare const clear: (color?: Color) => void;

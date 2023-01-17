@@ -263,11 +263,19 @@ Napi::Object getEvents(const Napi::CallbackInfo& info)
     return events;
 }
 
+Napi::Value minimize(const Napi::CallbackInfo& info)
+{
+    Napi::Env env = info.Env();
+    SDL_MinimizeWindow(window);
+    return env.Undefined();
+}
+
 Napi::Object Init(Napi::Env env, Napi::Object exports)
 {
     exports.Set(Napi::String::New(env, "getScreen"), Napi::Function::New(env, getScreen));
     exports.Set(Napi::String::New(env, "open"), Napi::Function::New(env, open));
     exports.Set(Napi::String::New(env, "close"), Napi::Function::New(env, close));
+    exports.Set(Napi::String::New(env, "minimize"), Napi::Function::New(env, minimize));
     exports.Set(Napi::String::New(env, "getEvents"), Napi::Function::New(env, getEvents));
     exports.Set(Napi::String::New(env, "render"), Napi::Function::New(env, render));
     exports.Set(Napi::String::New(env, "clear"), Napi::Function::New(env, clear));
