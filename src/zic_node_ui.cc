@@ -162,6 +162,10 @@ Napi::Value drawText(const Napi::CallbackInfo& info)
     Napi::Env env = info.Env();
     try {
         std::string text = info[0].As<Napi::String>().Utf8Value();
+        if (text.empty()) {
+            return env.Undefined();
+        }
+
         Point position = getPoint(env, info[1]);
         Color color = ZIC_DEFAULT_FONT_COLOR;
         uint32_t size = ZIC_DEFAULT_FONT_SIZE;
